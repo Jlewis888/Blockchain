@@ -1,3 +1,5 @@
+
+
 from backend.blockchain.block import Block
 
 
@@ -13,6 +15,12 @@ class Blockchain:
 
     def __repr__(self):
         return f'Blockchain: {self.chain}'
+
+    def to_json(self):
+        """
+        Serialize the blockchain into a list of blocks.
+        """
+        return list(map(lambda block: block.to_json(), self.chain))
 
     def add_block(self, data):
         self.chain.append(Block.mine_block(self.chain[-1], data))
@@ -32,6 +40,19 @@ class Blockchain:
             raise Exception(f'Cannot replace. The incoming chain is invalid: {e}')
 
         self.chain = chain
+
+    @staticmethod
+    def from_json(chain_json):
+        """
+        Deserialize a list of serialized blocks into a Blokchain instance.
+        The result will contain a chain list of Block instances.
+        """
+        blockchain = Blockchain()
+        blockchain.chain = list(
+            map(lambda block_json: Block.from_json(block_json), chain_json)
+        )
+
+        return blockchain
 
     @staticmethod
     def is_valid_chain(chain):
