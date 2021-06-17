@@ -20,7 +20,7 @@ pubsub = PubSub(blockchain, transaction_pool)
 
 @app.route('/')
 def route_default():
-    return 'Welcome to the blockchain'
+    return 'Welcome to the blockchains'
 
 @app.route('/blockchain')
 def route_blockchain():
@@ -116,4 +116,5 @@ if os.environ.get('SEED_DATA') == 'True':
             Transaction(Wallet(), Wallet().address, random.randint(2, 50))
         )
 
-app.run(port=PORT)
+if __name__ == '__main__':
+    app.run(port=PORT, debug=True)
